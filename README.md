@@ -19,32 +19,32 @@ Flask Builder is a Visual Studio Code extension designed to quickly scaffold a F
 ## Example
 
 The generated structure includes:
-
-
+```
 app/
 ├── config/
-│ ├── init.py
-│ ├── config.py
+│   ├── __init__.py
+│   └── config.py
 ├── db/
-│ ├── init.py
-│ ├── db.py
+│   ├── __init__.py
+│   └── db.py
 ├── modules/
-│ └── main/
-│ ├── init.py
-│ ├── routes.py
-│ ├── controller.py
-│ └── tests_main.py
+│   └── main/
+│       ├── __init__.py
+│       ├── routes.py
+│       ├── controller.py
+│       └── tests_main.py
 ├── tests/
-│ ├── init.py
-│ ├── conftest.py
+│   ├── __init__.py
+│   └── conftest.py
 ├── app.py
 ├── initialize_functions.py
 ├── run.py
-├── wsgi.py
+└── wsgi.py
 Dockerfile
 docker-compose.yml
 .env
 requirements.txt
+```
 
 
 ## Requirements

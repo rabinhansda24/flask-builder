@@ -81,6 +81,13 @@ function createFlaskAppStructure(uri: vscode.Uri) {
 		console.log(`Created run.py: ${runPyPath}`);
 	}
 
+	// Create app/initialize_functions.py
+	const initializeFunctionsPath = path.join(appDir, 'initialize_functions.py');
+	if (!fs.existsSync(initializeFunctionsPath)) {
+		fs.writeFileSync(initializeFunctionsPath, `from flask import Flask\nfrom app.db.db import db\n\n\ndef initialize_route(app: Flask):\n    with app.app_context():\n        pass\n\n\ndef initialize_db(app: Flask):\n    with app.app_context():\n        db.init_app(app)\n        db.create_all()\n`);
+		console.log(`Created initialize_functions.py: ${initializeFunctionsPath}`);
+	}
+
 	// Create wsgi.py
 	const wsgiPyPath = path.join(uri.fsPath, 'wsgi.py');
 	if (!fs.existsSync(wsgiPyPath)) {
@@ -91,7 +98,7 @@ function createFlaskAppStructure(uri: vscode.Uri) {
 	// Create app/app.py
 	const appPyPath = path.join(appDir, 'app.py');
 	if (!fs.existsSync(appPyPath)) {
-		fs.writeFileSync(appPyPath, `from flask import Flask\nfrom app.config.config import get_config_by_name\n\ndef create_app(config=None) -> Flask:\n    """\n    Create a Flask application.\n\n    Args:\n        config: The configuration object to use.\n\n    Returns:\n        A Flask application instance.\n    """\n    app = Flask(__name__)\n    if config:\n        app.config.from_object(config)\n\n    # Initialize extensions\n    # TODO: Initialize extensions here\n\n    # Register blueprints\n    # TODO: Register blueprints here\n\n    return app\n`);
+		fs.writeFileSync(appPyPath, `from flask import Flask\nfrom app.config.config import get_config_by_name\nfrom app.initialize_functions import initialize_route,initialize_db\n\ndef create_app(config=None) -> Flask:\n    """\n    Create a Flask application.\n\n    Args:\n        config: The configuration object to use.\n\n    Returns:\n        A Flask application instance.\n    """\n    app = Flask(__name__)\n    if config:\n        app.config.from_object(get_config_by_name(config))\n\n    # Initialize extensions\n    initialize_db(app)\n\n    # Register blueprints\n    initialize_route(app)\n\n    return app\n`);
 		console.log(`Created app.py: ${appPyPath}`);
 	}
 
@@ -116,12 +123,6 @@ function createFlaskAppStructure(uri: vscode.Uri) {
 		console.log(`Created db.py: ${dbPath}`);
 	}
 
-	// Create app/initialize_functions.py
-	const initializeFunctionsPath = path.join(appDir, 'initialize_functions.py');
-	if (!fs.existsSync(initializeFunctionsPath)) {
-		fs.writeFileSync(initializeFunctionsPath, `from flask import Flask\nfrom app.db.db import db\n\n\ndef initialize_route(app: Flask):\n    with app.app_context():\n        pass\n\n\ndef initialize_db(app: Flask):\n    with app.app_context():\n        db.init_app(app)\n        db.create_all()\n`);
-		console.log(`Created initialize_functions.py: ${initializeFunctionsPath}`);
-	}
 
 	// Create conftest.py file in tests folder for pytest with fixtures and client
 	const conftestPath = path.join(appDir, 'tests', 'conftest.py');

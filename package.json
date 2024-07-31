@@ -2,7 +2,7 @@
   "name": "flask-builder",
   "displayName": "Flask Builder",
   "description": "A Visual Studio Code extension to quickly scaffold a Flask application with necessary modules, Docker support, and OOP-style tests.",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/rabinhansda24/flask-builder"

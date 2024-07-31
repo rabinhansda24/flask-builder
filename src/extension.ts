@@ -14,53 +14,6 @@ function createDirectoryAndInit(uri: vscode.Uri, dirName: string) {
 	}
 }
 
-// Main modules
-function createMainModule(uri: vscode.Uri) {
-	const mainDir = path.join(uri.fsPath, 'modules', 'main');
-
-	if (!fs.existsSync(mainDir)) {
-		createDirectoryAndInit(vscode.Uri.file(path.join(uri.fsPath, 'modules')), 'main');
-		console.log(`Created directory: ${mainDir}`);
-	}
-
-	// Create controller file in main module
-	const controllerPath = path.join(mainDir, 'controller.py');
-	if (!fs.existsSync(controllerPath)) {
-		fs.writeFileSync(controllerPath, `class MainController:\n
-			"""Main controller."""\n
-			def __init__(self):
-			    pass
-			def index(self):\n
-				return 'Hello, world!'\n
-		`);
-		console.log(`Created controller.py: ${controllerPath}`);
-	}
-
-	// Create route file in main module
-	const routePath = path.join(mainDir, 'route.py');
-	if (!fs.existsSync) {
-		fs.writeFileSync(routePath, `from flask import Blueprint\nfrom .controller import MainController\n\nmain_bp = Blueprint('main', __name__)\n\nmain_controller = MainController()\n\n@main_bp.route('/')\ndef index():\n    return main_controller.index()\n`);
-		console.log(`Created route.py: ${routePath}`);
-	}
-
-	// create tests file in main module
-	const testsPath = path.join(mainDir, 'tests_main.py');
-	if (!fs.existsSync(testsPath)) {
-		fs.writeFileSync(testsPath, `import pytest
-from app.modules.main.controller import MainController
-
-class TestMainController:
-    def setup_method(self):
-        self.controller = MainController()
-
-    def test_get_message(self):
-        assert self.controller.get_message() == 'Hello, World!'
-`);
-		console.log(`Created tests_main.py: ${testsPath}`);
-	}
-
-}
-
 // Function to create Flask structure
 function createFlaskAppStructure(uri: vscode.Uri) {
 	const appDir = path.join(uri.fsPath, 'app');
@@ -73,6 +26,13 @@ function createFlaskAppStructure(uri: vscode.Uri) {
 	createDirectoryAndInit(vscode.Uri.file(appDir), 'db');
 	createDirectoryAndInit(vscode.Uri.file(appDir), 'modules');
 	createDirectoryAndInit(vscode.Uri.file(appDir), 'tests');
+
+	// Create app/__init__.py
+	const initPyPath = path.join(appDir, '__init__.py');
+	if (!fs.existsSync(initPyPath)) {
+		fs.writeFileSync(initPyPath, '');
+		console.log(`Created __init__.py: ${initPyPath}`);
+	}
 
 	// Create run.py
 	const runPyPath = path.join(uri.fsPath, 'run.py');
@@ -184,8 +144,7 @@ services:
 		console.log(`Created docker-compose.yml: ${dockerComposePath}`);
 	}
 
-	// Create modules/main directory
-	// createMainModule(uri);
+
 }
 
 // This method is called when your extension is activated

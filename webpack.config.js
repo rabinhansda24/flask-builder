@@ -3,6 +3,7 @@
 'use strict';
 
 const path = require('path');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 //@ts-check
 /** @typedef {import('webpack').Configuration} WebpackConfig **/
@@ -43,6 +44,16 @@ const extensionConfig = {
   devtool: 'nosources-source-map',
   infrastructureLogging: {
     level: "log", // enables logging required for problem matchers
-  },
+    },
+/*  plugins: [
+    new CopyWebpackPlugin({
+      patterns: [
+*//*        { from: 'src/extension.html', to: 'extension.html' },
+        { from: 'src/extension.css', to: 'extension.css' },
+        { from: 'src/manifest.json', to: 'manifest.json' },*//*
+       *//* { from: 'src/images', to: 'images' }*//*
+      ]
+    })
+  ]*/
 };
 module.exports = [ extensionConfig ];

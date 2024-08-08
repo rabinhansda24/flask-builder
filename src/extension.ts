@@ -41,12 +41,6 @@ function createFlaskAppStructure(uri: vscode.Uri) {
 		console.log(`Created run.py: ${runPyPath}`);
 	}
 
-	// Create app/initialize_functions.py
-	const initializeFunctionsPath = path.join(appDir, 'initialize_functions.py');
-	if (!fs.existsSync(initializeFunctionsPath)) {
-		fs.writeFileSync(initializeFunctionsPath, `from flask import Flask\nfrom app.db.db import db\n\n\ndef initialize_route(app: Flask):\n    with app.app_context():\n        pass\n\n\ndef initialize_db(app: Flask):\n    with app.app_context():\n        db.init_app(app)\n        db.create_all()\n`);
-		console.log(`Created initialize_functions.py: ${initializeFunctionsPath}`);
-	}
 
 	// Create wsgi.py
 	const wsgiPyPath = path.join(uri.fsPath, 'wsgi.py');
@@ -142,6 +136,48 @@ services:
       - FLASK_ENV=production
 `);
 		console.log(`Created docker-compose.yml: ${dockerComposePath}`);
+	}
+
+	// Create .dockerignore file
+	const dockerIgnorePath = path.join(uri.fsPath, '.dockerignore');
+	if (!fs.existsSync(dockerIgnorePath)) {
+		fs.writeFileSync(dockerIgnorePath, `__pycache__\n*.pyc\n*.pyo\n*.pyd\n*.db\n*.sqlite\n*.log\n*.env\n`);
+		console.log(`Created .dockerignore: ${dockerIgnorePath}`);
+	}
+
+	// Create a module in app/modules
+	const moduleDir = path.join(appDir, 'modules', 'main');
+	if (!fs.existsSync(moduleDir)) {
+		createDirectoryAndInit(vscode.Uri.file(path.join(appDir, 'modules')), 'main');
+		console.log(`Created directory: ${moduleDir}`);
+	}
+
+	// Create a controller file in app/modules/main
+	const controllerPath = path.join(moduleDir, 'controller.py');
+	if (!fs.existsSync(controllerPath)) {
+		fs.writeFileSync(controllerPath, `class MainController:\n    def index(self):\n        return {'message':'Hello, World!'}\n`);
+		console.log(`Created controller.py: ${controllerPath}`);
+	}
+
+	// Create a route file in app/modules/main
+	const routePath = path.join(moduleDir, 'route.py');
+	if (!fs.existsSync(routePath)) {
+		fs.writeFileSync(routePath, `from flask import Blueprint, make_response, jsonify\nfrom .controller import MainController\n\nmain_bp = Blueprint('main', __name__)\n\nmain_controller = MainController()\n\n@main_bp.route('/')\ndef index():\n    result=main_controller.index()\n    return make_response(jsonify(data=result))\n`);
+		console.log(`Created route.py: ${routePath}`);
+	}
+
+	// Create a tests file in app/modules/main
+	const testsPath = path.join(moduleDir, 'main_tests.py');
+	if (!fs.existsSync(testsPath)) {
+		fs.writeFileSync(testsPath, `import unittest\nimport json\n\nfrom app.modules.main.controller import MainController\n\n\ndef test_index():\n    main_controller = MainController()\n    result = main_controller.index()\n    assert result == {'message': 'Hello, World!'}\n`);
+		console.log(`Created main_tests.py: ${testsPath}`);
+	}
+
+	// Create app/initialize_functions.py
+	const initializeFunctionsPath = path.join(appDir, 'initialize_functions.py');
+	if (!fs.existsSync(initializeFunctionsPath)) {
+		fs.writeFileSync(initializeFunctionsPath, `from flask import Flask\nfrom app.modules.main.route import main_bp\nfrom app.db.db import db\n\n\ndef initialize_route(app: Flask):\n    with app.app_context():\n        app.register_blueprint(main_bp)\n\n\ndef initialize_db(app: Flask):\n    with app.app_context():\n        db.init_app(app)\n        db.create_all()\n`);
+		console.log(`Created initialize_functions.py: ${initializeFunctionsPath}`);
 	}
 
 

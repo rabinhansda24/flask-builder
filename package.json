@@ -2,12 +2,13 @@
   "name": "flask-builder",
   "displayName": "Flask Builder",
   "description": "A Visual Studio Code extension to quickly scaffold a Flask application with necessary modules, Docker support, and OOP-style tests.",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "author": {
     "name": "Rabin Hansda",
     "email": "rabinhansda24@live.com"
   },
-  "icon": "images/logo.png",
+  "publisher": "RabinHansda",
+  "icon": "logo.png",
   "repository": {
     "type": "git",
     "url": "https://github.com/rabinhansda24/flask-builder"
@@ -65,6 +66,7 @@
     "@typescript-eslint/parser": "^7.11.0",
     "@vscode/test-cli": "^0.0.9",
     "@vscode/test-electron": "^2.4.0",
+    "copy-webpack-plugin": "^12.0.2",
     "eslint": "^8.57.0",
     "ts-loader": "^9.5.1",
     "typescript": "^5.4.5",

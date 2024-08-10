@@ -58,12 +58,11 @@ requirements.txt
 
 ## Release Notes
 
-### 1.1.2
+### 1.1.3
 
-- Added icon to the extension.
-- Bug fixes.
+- Added option to add module
 
 ---
 
 
-**Enjoy using Flask Builder! If you have any issues or suggestions, please open an issue on the [GitHub repository](#).**
+**Enjoy using Flask Builder! If you have any issues or suggestions, please open an issue on the [GitHub repository](https://github.com/rabinhansda24/flask-builder).**

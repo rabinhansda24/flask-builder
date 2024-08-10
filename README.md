@@ -73,5 +73,8 @@ requirements.txt
 
 ---
 
+## Support the Project
+
+If you find this extension useful, consider supporting its development by [buying me a coffee](https://buymeacoffee.com/rabinhansda).
 
 **Enjoy using Flask Builder! If you have any issues or suggestions, please open an issue on the [GitHub repository](https://github.com/rabinhansda24/flask-builder).**

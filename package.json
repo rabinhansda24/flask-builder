@@ -41,7 +41,9 @@
     "API"
   ],
   "pricing": "Free",
-  "sponsor": "https://buymeacoffee.com/rabinhansda",
+  "sponsor": {
+    "url": "https://buymeacoffee.com/rabinhansda"
+  },
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {

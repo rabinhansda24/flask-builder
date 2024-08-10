@@ -4,11 +4,12 @@ Flask Builder is a Visual Studio Code extension designed to quickly scaffold a F
 
 
 ## Screenshots
-
-<img src="images/create-flask-app.png" alt="Create Flask App" width="400"> 
-<img src="images/create-flask-module.png" alt="Create Flask Module" width="400">
-<img src="images/create-flask-module-2.png" alt="Enter module name" width="400">
-<img src="images/module-files.png" alt="Module files" width="400">
+<div style="display: flex; flex-wrap: wrap; gap: 10px;">
+	<img src="images/create-flask-app.png" alt="Create Flask App" style="width: 45%;"> 
+	<img src="images/create-flask-module.png" alt="Create Flask Module" style="width: 45%;">
+	<img src="images/create-flask-module-2.png" alt="Enter module name" style="width: 45%;">
+	<img src="images/module-files.png" alt="Module files" width="300">
+</div>
 
 ## Features
 

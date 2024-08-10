@@ -17,8 +17,31 @@
     "vscode": "^1.91.0"
   },
   "categories": [
-    "Other"
+    "Programming Languages",
+    "Snippets",
+    "Development Tools",
+    "Testing"
   ],
+  "keywords": [
+    "Flask",
+    "Python",
+    "Web Development",
+    "Scaffold",
+    "Boilerplate",
+    "Docker",
+    "Testing",
+    "Pytest",
+    "MVC",
+    "Blueprints",
+    "Configuration",
+    "VSCode",
+    "Extension",
+    "Snippets",
+    "Backend",
+    "API"
+  ],
+  "pricing": "Free",
+  "sponsor": "https://buymeacoffee.com/rabinhansda",
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {

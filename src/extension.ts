@@ -238,6 +238,24 @@ function createModule(appDir: string, name: string = "") {
     );
     console.log(`Created ${name}_tests.py: ${testsPath}`);
   }
+
+    // Create a integration test file in app/tests/tests_<name>.py
+    let integrationTestFileName = "tests_" + name + ".py";
+    const integrationTestsPath = path.join(appDir, "..", "tests", integrationTestFileName);
+  if (!fs.existsSync(integrationTestsPath)) {
+        fs.writeFileSync(
+        integrationTestsPath,
+            `import json
+
+class Test${name_capitalize}():
+    def test_index(self, client):
+        response = client.get('/')
+        assert response.status_code == 200
+        assert response.json == {'message': 'Hello, World!'}
+            `,
+        );
+        console.log(`Created ${name}_tests.py: ${integrationTestsPath}`);
+    }
 }
 
 // This method is called when your extension is activated

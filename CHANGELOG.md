@@ -7,3 +7,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ## [Unreleased]
 
 - Initial release
+
+## [1.1.4] - 2024-08-17
+
+### Added
+
+- Integration test for creating a Flask module.

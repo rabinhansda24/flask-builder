@@ -181,12 +181,57 @@ services:
   createModule(moduleDir, "main");
 
   // Create app/initialize_functions.py
-  const initializeFunctionsPath = path.join(appDir, "initialize_functions.py");
-  if (!fs.existsSync(initializeFunctionsPath)) {
-    fs.writeFileSync(
-      initializeFunctionsPath,
-      `from flask import Flask\nfrom app.modules.main.route import main_bp\nfrom app.db.db import db\n\n\ndef initialize_route(app: Flask):\n    with app.app_context():\n        app.register_blueprint(main_bp)\n\n\ndef initialize_db(app: Flask):\n    with app.app_context():\n        db.init_app(app)\n        db.create_all()\n`,
-    );
+  //const initializeFunctionsPath = path.join(appDir, "initialize_functions.py");
+  //if (!fs.existsSync(initializeFunctionsPath)) {
+  //  fs.writeFileSync(
+  //    initializeFunctionsPath,
+  //    `from flask import Flask\nfrom app.modules.main.route import main_bp\nfrom app.db.db import db\n\n\ndef initialize_route(app: Flask):\n    with app.app_context():\n        app.register_blueprint(main_bp)\n\n\ndef initialize_db(app: Flask):\n    with app.app_context():\n        db.init_app(app)\n        db.create_all()\n`,
+  //  );
+  //  console.log(`Created initialize_functions.py: ${initializeFunctionsPath}`);
+  //}
+}
+
+// Function to append route registration to initialize_functions.py
+function appendRouteToInitializeFunctions(appDir: string, name: string = "") {
+  const initializeFunctionsPath = path.join(appDir, "..", "initialize_functions.py");
+  const blueprintRegistration = `\n        app.register_blueprint(${name}_bp)`;
+  const importStatement = `from app.modules.${name}.route import ${name}_bp\n`;
+
+  if (fs.existsSync(initializeFunctionsPath)) {
+    // Check if the blueprint is already registered
+    let content = fs.readFileSync(initializeFunctionsPath, "utf-8");
+
+    // Check if the import statement is already present
+    if (!content.includes(importStatement)) {
+      const updatedContent = `${importStatement}${content}`;
+      fs.writeFileSync(initializeFunctionsPath, updatedContent);
+    }
+    content = fs.readFileSync(initializeFunctionsPath, "utf-8");
+    if (!content.includes(`app.register_blueprint(${name}_bp)`)) {
+      // Find the index of the app context line
+      const appContextLine = 'with app.app_context():';
+      const appContextIndex = content.indexOf(appContextLine);
+      if (appContextIndex !== -1) {
+        // Insert the new blueprint registration after the app context line
+        const beforeAppContext = content.substring(0, appContextIndex + appContextLine.length);
+        const afterAppContext = content.substring(appContextIndex + appContextLine.length);
+
+        const newContent = `${beforeAppContext}${blueprintRegistration}${afterAppContext}`;
+
+        fs.writeFileSync(initializeFunctionsPath, newContent);
+      }
+      console.log(
+        `Appended route registration to initialize_functions.py: ${initializeFunctionsPath}`,
+      );
+    } else {
+      console.log(
+        `Route already registered in initialize_functions.py: ${initializeFunctionsPath}`,
+      );
+    }
+  } else {
+    // If the file does not exist, create it with the necessary content
+    const newContent = `from flask import Flask\nfrom app.modules.${name}.route import ${name}_bp\nfrom app.db.db import db\n\n\ndef initialize_route(app: Flask):\n    with app.app_context():${blueprintRegistration}\n\n\ndef initialize_db(app: Flask):\n    with app.app_context():\n        db.init_app(app)\n        db.create_all()\n`;
+    fs.writeFileSync(initializeFunctionsPath, newContent);
     console.log(`Created initialize_functions.py: ${initializeFunctionsPath}`);
   }
 }
@@ -205,12 +250,10 @@ function createModule(appDir: string, name: string = "") {
     console.log(`Created directory: ${moduleDir}`);
   }
 
-
   // Create a controller file in app/modules/<name>
   const controllerPath = path.join(moduleDir, "controller.py");
   let controllerClass = name_capitalize + "Controller";
   if (!fs.existsSync(controllerPath)) {
-
     fs.writeFileSync(
       controllerPath,
       `class ${controllerClass}:\n    def index(self):\n        return {'message':'Hello, World!'}\n`,
@@ -239,13 +282,18 @@ function createModule(appDir: string, name: string = "") {
     console.log(`Created ${name}_tests.py: ${testsPath}`);
   }
 
-    // Create a integration test file in app/tests/tests_<name>.py
-    let integrationTestFileName = "tests_" + name + ".py";
-    const integrationTestsPath = path.join(appDir, "..", "tests", integrationTestFileName);
+  // Create a integration test file in app/tests/tests_<name>.py
+  let integrationTestFileName = "tests_" + name + ".py";
+  const integrationTestsPath = path.join(
+    appDir,
+    "..",
+    "tests",
+    integrationTestFileName,
+  );
   if (!fs.existsSync(integrationTestsPath)) {
-        fs.writeFileSync(
-        integrationTestsPath,
-            `import json
+    fs.writeFileSync(
+      integrationTestsPath,
+      `import json
 
 class Test${name_capitalize}():
     def test_index(self, client):
@@ -253,9 +301,12 @@ class Test${name_capitalize}():
         assert response.status_code == 200
         assert response.json == {'message': 'Hello, World!'}
             `,
-        );
-        console.log(`Created ${name}_tests.py: ${integrationTestsPath}`);
-    }
+    );
+    console.log(`Created ${name}_tests.py: ${integrationTestsPath}`);
+  }
+
+  // Append route registration to initialize_functions.py
+  appendRouteToInitializeFunctions(appDir, name);
 }
 
 // This method is called when your extension is activated

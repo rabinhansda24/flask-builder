@@ -1,6 +1,6 @@
 # Flask Builder
 
-Flask Builder is a Visual Studio Code extension designed to quickly scaffold a Flask application with the necessary modules, Docker support, and OOP-style tests. 
+Flask Builder is a Visual Studio Code extension designed to quickly scaffold a Flask application with the necessary modules, Docker support, and integration and unit tests. 
 
 
 ## Screenshots
@@ -14,7 +14,8 @@ Flask Builder is a Visual Studio Code extension designed to quickly scaffold a F
 ## Features
 
 - **Flask App Structure**: Automatically creates a Flask application structure with `config`, `db`, `modules`, and `tests` directories.
-- **Main Module**: Includes a `main` module inside the `modules` directory with a sample route, controller, and OOP-style tests.
+- **Main Module**: Includes a `main` module inside the `modules` directory with a sample route, controller, and integration and unit tests.
+- **Create Module**: Quickly create a new module with a route, controller, and tests.
 - **Docker Support**: Generates a `Dockerfile` and `docker-compose.yml` for easy Docker setup.
 - **.env File**: Adds a default `.env` file for environment variables.
 - **Testing**: Includes Pytest configuration and example tests.
@@ -41,10 +42,11 @@ app/
 │       ├── __init__.py
 │       ├── routes.py
 │       ├── controller.py
-│       └── tests_main.py
+│       └── main_tests_.py
 ├── tests/
 │   ├── __init__.py
 │   └── conftest.py
+|   └── test_main.py
 ├── app.py
 ├── initialize_functions.py
 ├── run.py
@@ -70,6 +72,7 @@ requirements.txt
 ### 1.1.4
 
 - Added integration test for creating a Flask module.
+- Added auto blueprints registration for new modules.
 
 ---
 

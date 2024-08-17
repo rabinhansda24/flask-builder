@@ -67,9 +67,9 @@ requirements.txt
 
 ## Release Notes
 
-### 1.1.3
+### 1.1.4
 
-- Added option to add module
+- Added integration test for creating a Flask module.
 
 ---
 

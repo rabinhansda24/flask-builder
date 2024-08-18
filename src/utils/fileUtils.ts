@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as vscode from 'vscode';
 import { appendRouteToInitializeFunctions } from '../utils/initilizeUtils';
+import { createGitIgnore } from '../utils/gitIgnoreUtils'; 
 
 // Function to create directory and init
 export function createDirectoryAndInit(uri: vscode.Uri, dirName: string) {
@@ -175,19 +176,14 @@ services:
         console.log(`Created .dockerignore: ${dockerIgnorePath}`);
     }
 
+    // Create .gitignore file
+    createGitIgnore(uri);
+
     // Create a module in app/modules
     let moduleDir = path.join(appDir, "modules");
     createModule(moduleDir, "main");
 
-    // Create app/initialize_functions.py
-    //const initializeFunctionsPath = path.join(appDir, "initialize_functions.py");
-    //if (!fs.existsSync(initializeFunctionsPath)) {
-    //  fs.writeFileSync(
-    //    initializeFunctionsPath,
-    //    `from flask import Flask\nfrom app.modules.main.route import main_bp\nfrom app.db.db import db\n\n\ndef initialize_route(app: Flask):\n    with app.app_context():\n        app.register_blueprint(main_bp)\n\n\ndef initialize_db(app: Flask):\n    with app.app_context():\n        db.init_app(app)\n        db.create_all()\n`,
-    //  );
-    //  console.log(`Created initialize_functions.py: ${initializeFunctionsPath}`);
-    //}
+    
 }
 
 // Function to create a module

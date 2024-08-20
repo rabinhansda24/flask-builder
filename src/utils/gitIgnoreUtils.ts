@@ -126,6 +126,5 @@ dmypy.json
 .pyre/
 `,
         );
-        console.log(`Created .gitignore: ${gitIgnorePath}`);
     }
 }

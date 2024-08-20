@@ -1,14 +1,14 @@
 import * as vscode from "vscode";
-import { createFlaskAppCommand } from "./commands/createFlaskApp";
-import { createFlaskModuleCommand } from "./commands/createFlaskModule";
-import { createPythonModuleCommand } from "./commands/createPythonModule";
+import { registerCreateFlaskAppCommand } from "./registerCommand/flaskApp";
+import { registerExecuteCreateFlaskModuleCommand } from "./registerCommand/flaskModule";
+import { registerExecuteCreatePythonModuleCommand } from "./registerCommand/pythonModule";
 
 export function activate(context: vscode.ExtensionContext) {
-  
 
-    context.subscriptions.push(createPythonModuleCommand(context));
-    context.subscriptions.push(createFlaskAppCommand(context));
-    context.subscriptions.push(createFlaskModuleCommand(context));
+    registerCreateFlaskAppCommand(context);
+    registerExecuteCreateFlaskModuleCommand(context);
+    registerExecuteCreatePythonModuleCommand(context);
+
 }
 
 // This method is called when your extension is deactivated

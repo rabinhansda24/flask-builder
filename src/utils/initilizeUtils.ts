@@ -30,9 +30,6 @@ export function appendRouteToInitializeFunctions(appDir: string, name: string = 
 
                 fs.writeFileSync(initializeFunctionsPath, newContent);
             }
-            console.log(
-                `Appended route registration to initialize_functions.py: ${initializeFunctionsPath}`,
-            );
         } else {
             console.log(
                 `Route already registered in initialize_functions.py: ${initializeFunctionsPath}`,
@@ -42,6 +39,5 @@ export function appendRouteToInitializeFunctions(appDir: string, name: string = 
         // If the file does not exist, create it with the necessary content
         const newContent = `from flask import Flask\nfrom app.modules.${name}.route import ${name}_bp\nfrom app.db.db import db\n\n\ndef initialize_route(app: Flask):\n    with app.app_context():${blueprintRegistration}\n\n\ndef initialize_db(app: Flask):\n    with app.app_context():\n        db.init_app(app)\n        db.create_all()\n`;
         fs.writeFileSync(initializeFunctionsPath, newContent);
-        console.log(`Created initialize_functions.py: ${initializeFunctionsPath}`);
     }
 }

@@ -1,32 +1,29 @@
 import * as vscode from 'vscode';
 import { createModule } from '../utils/fileUtils';
 
-export function createFlaskModuleCommand(context: vscode.ExtensionContext) {
-    return vscode.commands.registerCommand(
-        "extension.createFlaskModule",
-        async (uri: vscode.Uri | undefined) => {
-            if (!uri) {
-                const folderUris = await vscode.window.showOpenDialog({
-                    canSelectFolders: true,
-                    canSelectMany: false,
-                    openLabel: "Select folder to create Flask module in",
-                });
-                uri = folderUris && folderUris[0];
-            }
+export async function executeCreateFlaskModuleCommand(uri: vscode.Uri | undefined) {
 
-            if (!uri) {
-                return;
-            }
+    if (!uri) {
+        const folderUris = await vscode.window.showOpenDialog({
+            canSelectFolders: true,
+            canSelectMany: false,
+            openLabel: "Select folder to create Flask module in",
+        });
+        uri = folderUris && folderUris[0];
+    }
 
-            const moduleName = await vscode.window.showInputBox({
-                prompt: "Enter the name of the Flask module",
-            });
+    if (!uri) {
+        return;
+    }
 
-            if (!moduleName) {
-                return;
-            }
+    const moduleName = await vscode.window.showInputBox({
+        prompt: "Enter the name of the Flask module",
+    });
 
-            createModule(uri.fsPath, moduleName);
-        },
-    );
+    if (!moduleName) {
+        return;
+    }
+
+    createModule(uri.fsPath, moduleName);
+
 };

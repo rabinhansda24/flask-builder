@@ -8,6 +8,7 @@ Flask Builder is a Visual Studio Code extension designed to quickly scaffold a F
 	<img src="images/create-flask-app.png" alt="Create Flask App" style="width: 45%;"> 
 	<img src="images/create-flask-module.png" alt="Create Flask Module" style="width: 45%;">
 	<img src="images/create-flask-module-2.png" alt="Enter module name" style="width: 45%;">
+	<img src="images/api-docs.png" alt="API docs" style="width: 45%;">
 	<img src="images/module-files.png" alt="Module files" width="300">
 </div>
 
@@ -19,6 +20,7 @@ Flask Builder is a Visual Studio Code extension designed to quickly scaffold a F
 - **Docker Support**: Generates a `Dockerfile` and `docker-compose.yml` for easy Docker setup.
 - **.env File**: Adds a default `.env` file for environment variables.
 - **Testing**: Includes Pytest configuration and example tests.
+- **Swagger**: Implemented Swagger for API documentation. It can be accessed at `http://localhost:5000/apidocs`.
 
 ## Usage
 
@@ -54,6 +56,7 @@ app/
 Dockerfile
 docker-compose.yml
 .env
+.gitignore
 requirements.txt
 ```
 
@@ -68,6 +71,10 @@ requirements.txt
 2. Reload VSCode.
 
 ## Release Notes
+
+### 1.1.5
+- Implemented swagger for API documentation.
+- Added .gitignore file.
 
 ### 1.1.4
 

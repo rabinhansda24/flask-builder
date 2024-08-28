@@ -4,7 +4,7 @@ import * as path from 'path';
 // Function to append route registration to initialize_functions.py
 export function appendRouteToInitializeFunctions(appDir: string, name: string = "") {
     const initializeFunctionsPath = path.join(appDir, "..", "initialize_functions.py");
-    const blueprintRegistration = `\n        app.register_blueprint(${name}_bp)`;
+    const blueprintRegistration = `\n        app.register_blueprint(${name}_bp, url_prefix='/api/v1/${name}')`;
     const importStatement = `from app.modules.${name}.route import ${name}_bp\n`;
 
     if (fs.existsSync(initializeFunctionsPath)) {
@@ -37,7 +37,7 @@ export function appendRouteToInitializeFunctions(appDir: string, name: string = 
         }
     } else {
         // If the file does not exist, create it with the necessary content
-        const newContent = `from flask import Flask\nfrom app.modules.${name}.route import ${name}_bp\nfrom app.db.db import db\n\n\ndef initialize_route(app: Flask):\n    with app.app_context():${blueprintRegistration}\n\n\ndef initialize_db(app: Flask):\n    with app.app_context():\n        db.init_app(app)\n        db.create_all()\n`;
+        const newContent = `from flask import Flask\nfrom flasgger import Swagger\nfrom app.modules.${name}.route import ${name}_bp\nfrom app.db.db import db\n\n\ndef initialize_route(app: Flask):\n    with app.app_context():${blueprintRegistration}\n\n\ndef initialize_db(app: Flask):\n    with app.app_context():\n        db.init_app(app)\n        db.create_all()\n\ndef initialize_swagger(app: Flask):\n    with app.app_context():\n        swagger = Swagger(app)\n        return swagger`;
         fs.writeFileSync(initializeFunctionsPath, newContent);
     }
 }

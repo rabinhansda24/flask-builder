@@ -4,7 +4,7 @@ import * as path from 'path';
 // Function to append route registration to initialize_functions.py
 export function appendRouteToInitializeFunctions(appDir: string, name: string = "") {
     const initializeFunctionsPath = path.join(appDir, "..", "initialize_functions.py");
-    const blueprintRegistration = `\n        app.register_blueprint(${name}_bp, url_prefix='/api/${name}')`;
+    const blueprintRegistration = `\n        app.register_blueprint(${name}_bp, url_prefix='/api/v1/${name}')`;
     const importStatement = `from app.modules.${name}.route import ${name}_bp\n`;
 
     if (fs.existsSync(initializeFunctionsPath)) {

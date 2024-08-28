@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { createDirectoryAndInit } from '../utils/fileUtils';
+import { createDirectoryAndInit } from '../utils/createDirectory';
 
 export async function executeCreatePythonModuleCommand(uri: vscode.Uri | undefined) {
 

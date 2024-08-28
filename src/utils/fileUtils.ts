@@ -3,7 +3,7 @@ import * as path from "path";
 import * as vscode from "vscode";
 import { appendRouteToInitializeFunctions } from "../utils/initilizeUtils";
 import { createGitIgnore } from "../utils/gitIgnoreUtils";
-import { createDirectoryAndInit } from "./createDirectory";
+import { createDirectoryAndInit } from "../utils/createDirectory";
 
 
 // Function to create Flask structure
@@ -196,7 +196,7 @@ export function createModule(appDir: string, name: string = "") {
 from .controller import ${controllerClass}
 
 
-${name}_bp = Blueprint('${name}', __name__, url_prefix='/${name}')
+${name}_bp = Blueprint('${name}', __name__)
 ${name}_controller = ${controllerClass}()
 @${name}_bp.route('/', methods=['GET'])
 def index():
